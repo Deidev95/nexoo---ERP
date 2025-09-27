@@ -1,0 +1,118 @@
+.login-page-container {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden; /* evita scroll accidental */
+    display: flex;
+}
+
+/* PANEL IZQUIERDO (EFECTO) */
+.left-panel {
+    position: relative;
+    flex: 1 1 50%; /* Ocupa el 50% del espacio */
+    background: linear-gradient(45deg, #0057E7, #1C1C59, #0057E7);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease-in-out infinite;
+    display: none; /* Oculto en pantallas pequeñas por defecto */
+}
+
+/* Se muestra en pantallas de 768px o más */
+@media (min-width: 768px) {
+    .left-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.left-panel-content {
+    text-align: center;
+    color: #fff;
+    z-index: 1; /* Para que quede por encima de las burbujas */
+    padding: 1rem;
+}
+
+.left-panel-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.left-panel-content p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+/* Burbujas decorativas */
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, .15);
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: float 6s ease-in-out infinite alternate;
+}
+.bubble:nth-child(1) { width: 180px; height: 180px; top: 15%; left: 20%; animation-duration: 4s; }
+.bubble:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 65%; animation-duration: 3.2s; }
+.bubble:nth-child(3) { width: 90px; height: 90px; top: 75%; left: 30%; animation-duration: 5s; }
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-80px) scale(1.15); }
+}
+
+/* PANEL DERECHO (LOGIN) */
+.right-panel {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative; /* Para posicionar la versión */
+}
+
+.login-card {
+    width: 100%;
+    max-width: 360px;
+    background: #F3F1F1;
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+    animation: fadeIn .8s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-card .form-label {
+    font-weight: 600;
+}
+
+/* botón corporativo "INGRESAR" */
+.btn-nexo {
+    background-color: #0057E7;
+    border-color: #0057E7;
+    color: white;
+    transition: background-color .2s;
+}
+
+.btn-nexo:hover {
+    background-color: #1C1C59;
+    border-color: #1C1C59;
+}
+
+.version-info {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+}
