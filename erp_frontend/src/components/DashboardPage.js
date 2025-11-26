@@ -116,7 +116,7 @@ const DashboardPage = () => {
                         </Button>
                     </Paper>
                 </Grid>
-                {/* Puedes añadir más tarjetas de acceso directo aquí */}
+                {/* Aquí añadiremos más tarjetas de acceso directo */}
             </Grid>
         </Box>
     );
