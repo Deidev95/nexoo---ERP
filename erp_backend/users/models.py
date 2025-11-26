@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
+from django.conf import settings
 
 # Modelo de autenticación personalizado
 class User(AbstractUser):
@@ -39,6 +40,9 @@ class Colaborador(models.Model):
     cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, null=True)
     sede = models.ForeignKey(Sede, on_delete=models.SET_NULL, null=True)
     history = HistoricalRecords()
+    
+    # Esto crea  un vinculo uno-a-uno con el modelo User de Django
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'{self.primer_nombre} {self.primer_apellido}'

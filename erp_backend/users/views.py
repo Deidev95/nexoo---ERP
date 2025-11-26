@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -31,6 +32,33 @@ class ColaboradorViewSet(viewsets.ModelViewSet):
         if self.action in ['create', 'update', 'partial_update']:
             return ColaboradorWriteSerializer
         return super().get_serializer_class()
+    
+    @action(detail=False, methods=['get'])
+    def kpis(self, request):
+        """
+        Devuelve estadísticas clave para el dashboard de colaboradores.
+        """
+        # 1. Total de colaboradores
+        total = Colaborador.objects.count()
+
+        # 2. Nuevos este mes
+        now = timezone.now()
+        nuevos_mes = Colaborador.objects.filter(
+            fecha_ingreso__year=now.year,
+            fecha_ingreso__month=now.month
+        ).count()
+
+        return Response({
+            "total_colaboradores": total,
+            "nuevos_este_mes": nuevos_mes,
+            # Por ahora, los indicadores económicos los enviamos fijos, 
+            # más adelante los conectare a una API externa.
+            "indicadores": {
+                "trm": 4100,
+                "uvr": 350.2,
+                "smlv": 1300000
+            }
+        })
 
     @action(detail=True, methods=['get'], url_path='historial')
     def historial(self, request, pk=None):
