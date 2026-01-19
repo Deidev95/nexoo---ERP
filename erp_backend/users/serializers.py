@@ -21,9 +21,9 @@ class ColaboradorWriteSerializer(serializers.ModelSerializer):
             return super().update(instance, validated_data)
         
 class ColaboradorReadSerializer(serializers.ModelSerializer):
-    #cargo = serializers.StringRelatedField()
-    #sede = serializers.StringRelatedField()
-    
+    cargo = serializers.StringRelatedField()
+    sede = serializers.StringRelatedField()
+
     class Meta:
         model = Colaborador
         fields = '__all__'
