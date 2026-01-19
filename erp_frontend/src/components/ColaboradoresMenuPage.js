@@ -48,10 +48,10 @@ const ColaboradoresMenuPage = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Typography variant="h4" gutterBottom sx={{ color: '#333', fontWeight: 'bold' }}>
+            <Typography variant="h4" gutterBottom sx={{ color: '#1e293b', fontWeight: 'bold' }}>
                 Gestión de Colaboradores
             </Typography>
-            <Typography variant="body1" sx={{ mb: 4, color: '#666' }}>
+            <Typography variant="body1" sx={{ mb: 4, color: '#64748b' }}>
                 Vista general e indicadores clave del personal.
             </Typography>
 
@@ -131,7 +131,7 @@ const ColaboradoresMenuPage = () => {
                         onClick={() => handleNavigate('/rrhh/colaboradores/listado')}
                         sx={{ p: 2, fontSize: '1.1rem', backgroundColor: '#1565c0' }}
                     >
-                        Consultar Listado
+                        Personal Activo
                     </Button>
                 </Grid>
 

@@ -46,11 +46,11 @@ const DashboardPage = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            {/* --- SECCIÓN DE BIENVENIDA --- */}
-            <Typography variant="h4" component="h1" sx={{ fontWeight: '600', color: 'white' }} gutterBottom>
-                Bienvenido al Dashboard
+            {/* --- Sección de bienvenida dashboard principal --- */}
+            <Typography variant="h4" component="h1" sx={{ fontWeight: '#333', color: '#1e293b' }} gutterBottom>
+                Bienvenido al Panel de Control
             </Typography>
-            <Typography variant="subtitle1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ color: '#64748b', mb: 3 }}>
                 Aquí tienes un resumen clave de la actividad de tu empresa.
             </Typography>
             <Divider sx={{ mb: 4, borderColor: 'rgba(255, 255, 255, 0.2)' }} />

@@ -4,7 +4,6 @@ import { Box, Grid, Paper, Typography, Button, Divider } from '@mui/material';
 import { Group as GroupIcon, ReceiptLong as ReceiptLongIcon, EventBusy as EventBusyIcon, QueryStats as QueryStatsIcon, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
 // --- DATOS DE LOS MÓDULOS DE RRHH ---
-// Centralizamos la información aquí para que sea fácil añadir más en el futuro.
 const hrModules = [
     {
         title: "Gestión de Colaboradores",
@@ -83,13 +82,13 @@ const HRPanelPage = () => {
     return (
         <Box sx={{ p: 2 }}>
             {/* --- ENCABEZADO --- */}
-            <Typography variant="h4" component="h1" sx={{ fontWeight: '600', color: 'white' }} gutterBottom>
+            <Typography variant="h4" component="h1" sx={{ fontWeight: '600', color: '#1e293b' }} gutterBottom>
                 Panel de Recursos Humanos
             </Typography>
-            <Typography variant="subtitle1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ color: '#64748b', mb: 2 }}>
                 Selecciona un sub-módulo para comenzar a gestionar.
             </Typography>
-            <Divider sx={{ mb: 4, borderColor: 'rgba(255, 255, 255, 0.2)' }} />
+            <Divider sx={{ mb: 3, borderColor: 'rgba(255, 255, 255, 0.2)' }} />
 
             {/* --- CUADRÍCULA DE MÓDULOS --- */}
             <Grid container spacing={3}>
