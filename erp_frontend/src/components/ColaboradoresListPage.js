@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import { 
     Box, 
     Typography, 
@@ -24,9 +25,11 @@ import { useTheme } from '@mui/material/styles';
 
 // Íconos
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ColaboradoresListPage = () => {
     const [colaboradores, setColaboradores] = useState([]);
@@ -69,21 +72,23 @@ const ColaboradoresListPage = () => {
     }
 
     return (
-        <Box>
+        <Box >
+            
             {/* --- 1. HEADER DE LA PÁGINA --- */}
-            <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center', 
-                mb: 4 
-            }}>
-                <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                        Directorio de Personal
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Gestiona el acceso y la información de tus colaboradores.
-                    </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <IconButton onClick={() => navigate('/rrhh/colaboradores')} sx={{ color: 'text.primary' }}>
+                            <ArrowBackIcon />
+                    </IconButton>
+                
+                    <Box>
+                        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            Directorio de Personal
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Gestiona el acceso y la información de tus colaboradores.
+                        </Typography>
+                    </Box>
                 </Box>
                 
                 {/* Botón de Crear (Ahora a la derecha y estilizado) */}
@@ -161,8 +166,8 @@ const ColaboradoresListPage = () => {
 
                                     <TableCell>{colaborador.cedula}</TableCell>
                                 
-                                    <TableCell>{colaborador.cargo || 'N/A'}</TableCell> 
-                                    <TableCell>{colaborador.sede || 'N/A'}</TableCell>
+                                    <TableCell>{colaborador.cargo_nombre || 'N/A'}</TableCell> 
+                                    <TableCell>{colaborador.sede_nombre || 'N/A'}</TableCell>
 
                                     {/* Chip de Estado */}
                                     <TableCell>

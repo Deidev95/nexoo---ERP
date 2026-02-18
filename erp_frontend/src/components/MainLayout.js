@@ -27,6 +27,7 @@ const navItems = [
         children: [
             { text: 'Panel RRHH', icon: <AssessmentIcon />, path: '/rrhh' },
             { text: 'Colaboradores', icon: <PeopleIcon />, path: '/rrhh/colaboradores' },
+            { text: 'Estructura y Cargos', icon: <BusinessIcon />, path: '/rrhh/estructura' },
         ],
     },
 ];
@@ -67,8 +68,8 @@ const StyledDrawer = styled(MuiDrawer, {
         }),
         boxSizing: 'border-box',
         // Estilo para el siderbar
-        backgroundColor: theme.palette.primary.main, // Color oscuro del tema (Slate)
-        color: theme.palette.primary.contrastText, // Texto blanco
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
         borderRight: 'none',
         overflowX: 'hidden',
     },

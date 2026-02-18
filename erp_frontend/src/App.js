@@ -13,6 +13,8 @@ import ColaboradorCreatePage from './components/ColaboradorCreatePage';
 import ColaboradorEditPage from './components/ColaboradorEditPage';
 import MainLayout from './components/MainLayout';
 import ColaboradoresMenuPage from './components/ColaboradoresMenuPage';
+import GestionEstructuraPage from './components/GestionEstructuraPage';
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path="/rrhh/colaboradores/crear" element={<ProtectedRoute><MainLayout><ColaboradorCreatePage /></MainLayout></ProtectedRoute>} />
           <Route path="/rrhh/colaboradores/:id" element={<ProtectedRoute><MainLayout><ColaboradorProfilePage /></MainLayout></ProtectedRoute>} />
           <Route path="/rrhh/colaboradores/:id/editar" element={<ProtectedRoute><MainLayout><ColaboradorEditPage /></MainLayout></ProtectedRoute>} />
+          <Route path="/rrhh/estructura" element={<ProtectedRoute><MainLayout><GestionEstructuraPage /></MainLayout></ProtectedRoute>} />
         </Routes>
       </Router>
     </ThemeProvider>

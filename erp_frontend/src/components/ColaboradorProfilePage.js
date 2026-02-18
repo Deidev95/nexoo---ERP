@@ -4,7 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { 
     Box, Grid, Paper, Typography, Button, Avatar, Divider, Chip, 
-    CircularProgress, Stack, Tabs, Tab
+    CircularProgress, Stack, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -23,6 +23,13 @@ import InfoIcon from '@mui/icons-material/Info';
 import BadgeIcon from '@mui/icons-material/Badge';
 import WorkIcon from '@mui/icons-material/Work';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PublicIcon from '@mui/icons-material/Public';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import MapIcon from '@mui/icons-material/Map';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -57,7 +64,7 @@ const ColaboradorProfilePage = () => {
         const config = { headers: { 'Authorization': `Bearer ${accessToken}` } };
         try {
             const [colaboradorRes, historyRes] = await Promise.all([
-                axios.get(`http://localhost:8000/api/colaboradores/${id}/`, config),
+                axios.get(`http://localhost:8000/api/colaboradores/${id}/?modo_edicion=false`, config),
                 axios.get(`http://localhost:8000/api/colaboradores/${id}/historial/`, config)
             ]);
             setColaborador(colaboradorRes.data);
@@ -219,7 +226,7 @@ const ColaboradorProfilePage = () => {
                 </Button>
             </Box>
 
-            {/* --- Sección superior fija --- */}
+            {/* Sección superior fija */}
             <Paper sx={{ 
                 p: 3, 
                 mb: 3, 
@@ -242,10 +249,10 @@ const ColaboradorProfilePage = () => {
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 0.5 }}>
                             <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 500 }}>
-                                {colaborador.cargo}
+                                {colaborador.cargo_nombre}
                             </Typography>
 
-                            {/* Chip dinámico de estado */}
+                            {/* Chip dinámico de estado del colaborador */}
                             <Chip 
                                 label={colaborador.estado_empleado} 
                                 color={
@@ -254,6 +261,22 @@ const ColaboradorProfilePage = () => {
                                 } 
                                 size="small" 
                                 sx={{ fontWeight: 'bold' }} 
+                            />
+
+                            {/* Chip de Número de Contrato del colaborador */}
+                            <Chip 
+                                label={`Contrato #${colaborador.numero_contrato || 1}`} 
+                                // Si está ACTIVO es 'success' (verde), si no es 'error' (rojo)
+                                color={colaborador.estado_empleado === 'ACTIVO' ? "success" : "error"} 
+                                variant="outlined" 
+                                size="small" 
+                                sx={{ 
+                                    fontWeight: 'bold', 
+                                    // Estilos condicionales para Verde (Activo) vs Rojo (Inactivo)
+                                    border: colaborador.estado_empleado === 'ACTIVO' ? '1px solid #4caf50' : '1px solid #ef5350', 
+                                    color: colaborador.estado_empleado === 'ACTIVO' ? '#2e7d32' : '#c62828', 
+                                    bgcolor: colaborador.estado_empleado === 'ACTIVO' ? '#e8f5e9' : '#ffebee' 
+                                }}
                             />
                         </Box>
                     </Box>
@@ -306,6 +329,7 @@ const ColaboradorProfilePage = () => {
                         sx={{ '& .MuiTab-root': { fontWeight: 600 } }}
                     >
                         <Tab icon={<InfoIcon />} iconPosition="start" label="Información General" />
+                        <Tab icon={<WorkIcon />} iconPosition="start" label="Información Laboral" />
                         <Tab icon={<HistoryIcon />} iconPosition="start" label="Auditoría de Cambios" />
                         <Tab label="Vacaciones" disabled />
                         <Tab label="Documentos" disabled />
@@ -322,9 +346,11 @@ const ColaboradorProfilePage = () => {
                         <Grid item xs={12} sm={6} md={4}>
                             <InfoItem icon={<BadgeIcon fontSize="small"/>} label="Cédula" value={colaborador.cedula} />
                         </Grid>
+
                         <Grid item xs={12} sm={6} md={4}>
                             <InfoItem icon={<PersonIcon fontSize="small"/>} label="Fecha Nacimiento" value={colaborador.fecha_nacimiento} />
                         </Grid>
+
                          <Grid item xs={12} sm={6} md={4}>
                             <InfoItem icon={<WorkIcon fontSize="small"/>} label="Estado" value={colaborador.estado_empleado} />
                         </Grid>
@@ -332,18 +358,36 @@ const ColaboradorProfilePage = () => {
                         <Grid item xs={12} sm={6} md={4}>
                             <InfoItem icon={<EmailIcon fontSize="small"/>} label="Correo Personal" value={colaborador.correo_personal} />
                         </Grid>
+
                         <Grid item xs={12} sm={6} md={4}>
-                            <InfoItem icon={<PhoneIcon fontSize="small"/>} label="Teléfono" value={colaborador.telefono} />
+                            <InfoItem icon={<PhoneIcon fontSize="small"/>} label="Teléfono / Celular" value={colaborador.telefono} />
                         </Grid>
-                         <Grid item xs={12} sm={6} md={4}>
-                            <InfoItem icon={<BusinessIcon fontSize="small"/>} label="Sede" value={colaborador.sede} />
+                        
+                        <Grid item xs={12} sm={6} md={4}>
+                            <InfoItem icon={<LocationOnIcon fontSize="small"/>} label="Dirección" value={`${colaborador.direccion || ''}, ${colaborador.municipio || ''}`} />
                         </Grid>
 
                         <Grid item xs={12} sm={6} md={4}>
-                            <InfoItem icon={<EventAvailableIcon fontSize="small"/>} label="Fecha Ingreso" value={colaborador.fecha_ingreso} />
+                            <InfoItem icon={<BadgeIcon fontSize="small"/>} label="Estado Civil" value={colaborador.estado_civil} />
                         </Grid>
 
-                        {/* Mostramos la fecha de retiro de forma destacada si existe */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <InfoItem icon={<PersonIcon fontSize="small"/>} label="Género" value={colaborador.genero} />
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<PublicIcon fontSize="small"/>} label="Nacionalidad" value={colaborador.nacionalidad} />
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<LocationCityIcon fontSize="small"/>} label="Departamento" value={colaborador.departamento} />
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<MapIcon fontSize="small"/>} label="Municipio" value={colaborador.municipio} />
+                        </Grid>
+
+                        {/* lógica de reito de colaboradro */}
                         {colaborador.fecha_desvinculacion && (
                             <Grid item xs={12} sm={6} md={4}>
                                 <Paper elevation={0} sx={{ p: 2, bgcolor: '#fff4e5', border: '1px solid #ffcc80', borderRadius: 2, height: '100%' }}>
@@ -362,23 +406,131 @@ const ColaboradorProfilePage = () => {
                     </Grid>
                 </TabPanel>
 
-                {/* --- Pestaña 2: "Auditoria de cambios" --- */}
+                {/* --- Pestaña 1: "Información Laboral" (NUEVA) --- */}
                 <TabPanel value={tabValue} index={1}>
+                    <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.text.primary }}>
+                        Estructura y Contratación
+                    </Typography>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<BusinessIcon fontSize="small"/>} label="Gerencia" value={colaborador.gerencia_nombre} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<AccountTreeIcon fontSize="small"/>} label="Área" value={colaborador.area_nombre} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<AccountTreeIcon fontSize="small"/>} label="Sub-Área / Ceco" value={`${colaborador.sub_area_nombre || ''} ${colaborador.codigo_centro_costos ? `(${colaborador.codigo_centro_costos})` : ''}`} />
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<LocationOnIcon fontSize="small"/>} label="Sede de Trabajo" value={colaborador.sede_nombre} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<SupervisorAccountIcon fontSize="small"/>} label="Jefe Inmediato" value={colaborador.jefe_inmediato_nombre || 'Sin jefe (Cabeza de área)'} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <InfoItem icon={<CalendarMonthIcon fontSize="small"/>} label="Fecha Ingreso" value={colaborador.fecha_ingreso} />
+                        </Grid>
+
+                        <Grid item xs={12} md={6}>
+                            <InfoItem icon={<EmailIcon fontSize="small"/>} label="Correo Corporativo" value={colaborador.correo_corporativo} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <InfoItem icon={<BadgeIcon fontSize="small"/>} label="Contrato" value={`${colaborador.tipo_contrato} ${colaborador.termino_contrato ? `(Vence: ${colaborador.termino_contrato})` : ''}`} />
+                        </Grid>
+                    </Grid>
+
+                    {colaborador.contratos_previos && colaborador.contratos_previos.length > 0 && (
+                        <Box sx={{ mt: 4 }}>
+                            <Divider sx={{ mb: 2 }}>
+                                <Chip label="📜 Historial de Vinculaciones Anteriores" size="small" />
+                            </Divider>
+
+                            <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid #e0e0e0' }}>
+                                <Table size="small">
+                                    <TableHead sx={{ bgcolor: '#f5f5f5' }}>
+                                        <TableRow>
+                                            <TableCell><strong>Cargo Anterior</strong></TableCell>
+                                            <TableCell><strong>Área / Gerencia</strong></TableCell>
+                                            <TableCell><strong>Fecha Inicio</strong></TableCell>
+                                            <TableCell><strong>Fecha Fin</strong></TableCell>
+                                            <TableCell><strong>Motivo Retiro</strong></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {colaborador.contratos_previos.map((hist) => (
+                                            <TableRow key={hist.id} hover>
+                                                <TableCell>{hist.cargo_snapshot || '---'}</TableCell>
+                                                <TableCell>
+                                                    <Typography variant="caption" display="block">{hist.area_snapshot}</Typography>
+                                                    <Typography variant="caption" color="textSecondary">{hist.gerencia_snapshot}</Typography>
+                                                </TableCell>
+                                                <TableCell>{hist.fecha_inicio}</TableCell>
+                                                <TableCell sx={{ color: '#d32f2f', fontWeight: 'bold' }}>{hist.fecha_fin}</TableCell>
+                                                <TableCell>
+                                                    <Chip label={hist.motivo_retiro || 'No especificado'} size="small" variant="outlined" />
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
+                    )}
+                </TabPanel>
+
+                {/* --- Pestaña 2: "Auditoria de cambios" --- */}
+                <TabPanel value={tabValue} index={2}>
                      <Box sx={{ maxHeight: '600px', overflowY: 'auto', pr: 1 }}>
                         {history.length > 0 ? (
                             <Stack spacing={2}>
                                 {history.map((record) => {
                                     const typeInfo = getHistoryTypeLabel(record.history_type);
+                                
+                                    // DETECTAMOS SI ES UN REINGRESO
+                                    // (Si el campo history_change_reason tiene texto, es un reingreso)
+                                    const esReingreso = record.history_change_reason && record.history_change_reason.length > 0;
+
                                     return (
-                                        <Paper key={record.history_id} elevation={0} sx={{ p: 2, border: '1px solid #e2e8f0', borderLeft: `4px solid ${typeInfo.color === 'success' ? '#2e7d32' : typeInfo.color === 'info' ? '#0288d1' : '#d32f2f'}` }}>
+                                        <Paper 
+                                            key={record.history_id} 
+                                            elevation={0} 
+                                            sx={{ 
+                                                p: 2, 
+                                                border: '1px solid #e2e8f0', 
+                                                // Si es reingreso, borde MORADO. Si no, usa el color normal (Verde/Azul/Rojo)
+                                                borderLeft: esReingreso ? '4px solid #9c27b0' : `4px solid ${typeInfo.color === 'success' ? '#2e7d32' : typeInfo.color === 'info' ? '#0288d1' : '#d32f2f'}` 
+                                            }}
+                                        >
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                                <Chip label={typeInfo.text} color={typeInfo.color} size="small" />
-                                                <Typography variant="caption" color="text.secondary">{new Date(record.history_date).toLocaleString()}</Typography>
+                                                {/* Si es reingreso, mostramos etiqueta especial */}
+                                                {esReingreso ? (
+                                                    <Chip label="🚀 REINGRESO" color="secondary" size="small" sx={{ fontWeight: 'bold' }} />
+                                                ) : (
+                                                    <Chip label={typeInfo.text} color={typeInfo.color} size="small" />
+                                                )}
+                                            
+                                                <Typography variant="caption" color="text.secondary">
+                                                    {new Date(record.history_date).toLocaleString()}
+                                                </Typography>
                                             </Box>
-                                            <Typography variant="body2"><strong>Por:</strong> {record.history_user || 'Sistema'}</Typography>
-                                            {record.changes && (
-                                                <Box sx={{ mt: 1.5, p: 1, bgcolor: '#f1f5f9', borderRadius: 1, fontSize: '0.85rem', fontFamily: 'monospace' }}>{record.changes}</Box>
-                                            )}
+                                        
+                                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                                <strong>Por:</strong> {record.history_user || 'Sistema'}
+                                            </Typography>
+
+                                            {/* CAJA DE DETALLES */}
+                                            <Box sx={{ p: 1.5, bgcolor: esReingreso ? '#f3e5f5' : '#f8fafc', borderRadius: 1, fontSize: '0.85rem', fontFamily: 'monospace' }}>
+                                                {esReingreso ? (
+                                                    // 1. Mensaje de Reingreso (Lo que escribimos en el Backend)
+                                                    <Typography variant="body2" color="secondary.main" fontWeight="bold">
+                                                        {record.history_change_reason}
+                                                    </Typography>
+                                                ) : (
+                                                    // 2. Cambios normales (Campo A -> Campo B)
+                                                    record.changes || 'Sin detalles de cambios.'
+                                                )}
+                                            </Box>
                                         </Paper>
                                     );
                                 })}

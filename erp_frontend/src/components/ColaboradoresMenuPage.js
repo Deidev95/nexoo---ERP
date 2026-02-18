@@ -131,7 +131,7 @@ const ColaboradoresMenuPage = () => {
                         onClick={() => handleNavigate('/rrhh/colaboradores/listado')}
                         sx={{ p: 2, fontSize: '1.1rem', backgroundColor: '#1565c0' }}
                     >
-                        Personal Activo
+                        Colaboradores
                     </Button>
                 </Grid>
 
